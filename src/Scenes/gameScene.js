@@ -54,6 +54,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
             parentRef.current.className = 'aniObject'
             optionRef.current.startGame()
             loadFunc()
+            setRepeatType(1)
         },
         sceneEnd: () => {
             setSceneLoad(false)

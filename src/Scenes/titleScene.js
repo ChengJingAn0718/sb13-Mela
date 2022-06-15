@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useContext, useState } from 'react';
 import "../stylesheets/styles.css";
-import { initialAudio } from '../components/CommonFunctions';
+import { initialAudio, setExtraVolume } from '../components/CommonFunctions';
 import { UserContext } from '../components/BaseShot';
 import { prePathUrl } from "../components/CommonFunctions";
 
@@ -32,6 +32,9 @@ const Scene = React.forwardRef(({ nextFunc, _geo, _startTransition }, ref) => {
             }
             _startTransition(2)
             setTimeout(() => {
+                
+                setExtraVolume(audioList.wooAudio, 1.5)
+
                 audioList.wooAudio.play().catch(error => { });
                 nextFunc();
             }, 300);

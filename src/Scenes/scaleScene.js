@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useContext, useState } from 'react';
 import "../stylesheets/styles.css";
 import BaseImage from '../components/BaseImage';
 import { UserContext } from '../components/BaseShot';
-import { getAudioPath, prePathUrl } from "../components/CommonFunctions";
+import { getAudioPath, prePathUrl, setExtraVolume } from "../components/CommonFunctions";
 import { MaskComponent } from "../components/CommonComponents"
 
 
@@ -52,14 +52,15 @@ const subMarkInfoList = [
 
     [
         { p: '1', t: 2000, i: 0 },
-        { p: '2', t: 4700, i: 1 },
+        { p: '2', t: 3500, i: 1 },
+        { p: '12', t: 5000, i: 2 },
     ],
     [
-        { p: '3', t: 1000, i: 2 },
-        { p: '4', t: 7500, i: 3 },
-        { p: '5', t: 8500, i: 4 },
-        { p: '6', t: 9500, i: 5 },
-        { p: '7', t: 11500, i: 6 },
+        { p: '3', t: 1000, i: 3 },
+        { p: '4', t: 7500, i: 4 },
+        { p: '5', t: 8500, i: 5 },
+        { p: '6', t: 9500, i: 6 },
+        { p: '7', t: 11500, i: 7 },
     ],
 
 
@@ -72,7 +73,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc, bgLoaded }, ref)
     const blackWhiteObject = useRef();
     const colorObject = useRef();
     const currentImage = useRef()
-    const subMaskRefList = Array.from({ length: 7 }, ref => useRef())
+    const subMaskRefList = Array.from({ length: 8 }, ref => useRef())
 
     const [isSubMaskLoaded, setSubMaskLoaded] = useState(0)
     const [isSceneLoad, setSceneLoad] = useState(false)
@@ -98,6 +99,11 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc, bgLoaded }, ref)
 
             setTimeout(() => {
                 setSubMaskLoaded(1)
+
+                setExtraVolume(audioList.bodyAudio1, 2)
+                setExtraVolume(audioList.bodyAudio2, 2)
+                setExtraVolume(audioList.bodyAudio3, 2)
+
             }, 2000);
 
             setTimeout(() => {
@@ -155,8 +161,10 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc, bgLoaded }, ref)
                     setTimeout(() => {
                         if (index == 0)
                             colorObject.current.className = 'hide'
+
                         if (index == 1 && subMaskNum == 1)
                             subMaskRefList[info.i - 1].current.setClass('hide')
+
                         subMaskRefList[info.i].current.setClass('appear')
                     }, info.t);
                 })
@@ -334,7 +342,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc, bgLoaded }, ref)
                         subMarkInfoList.map((groupMask, groupIndex) =>
                             (groupIndex) < isSubMaskLoaded && groupMask.map((value, index) =>
                                 <MaskComponent
-                                    ref={subMaskRefList[groupIndex * 2 + index]}
+                                    ref={subMaskRefList[groupIndex * 3 + index]}
                                     maskPath={returnImgPath(value.p, true)}
                                 />
 

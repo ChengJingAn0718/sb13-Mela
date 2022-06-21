@@ -18,22 +18,21 @@ let activeInterval
 let timerList = []
 
 let clickedList = []
-let wordGround = [4, 5, 2]
+let wordGround = [6, 5]
 
 const posInfoList = [
-    { x: 10, y: 40 },
-    { x: 50, y: 40 },
-    { x: 10, y: 70 },
-    { x: 50, y: 70 },
-
-    { x: 15, y: 40 },
-    { x: 50, y: 40 },
+    { x: 2, y: 40 },
+    { x: 33, y: 40 },
+    { x: 64, y: 40, m: true },
     { x: 2, y: 70 },
     { x: 33, y: 70 },
     { x: 64, y: 70, m: true },
 
-    { x: 10, y: 55 },
-    { x: 52, y: 55, m: true },
+    { x: 15, y: 40 },
+    { x: 48, y: 40 },
+    { x: 2, y: 70 },
+    { x: 33, y: 70 },
+    { x: 64, y: 70, m: true },
 ]
 
 let doneCount = 0
@@ -84,15 +83,13 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo }, ref) => {
 
 
             for (let i = 0; i < 11; i++)
-                setExtraVolume(audioList[i], 2)
-            setExtraVolume(audioList.commonAudio3, 2)
+                setExtraVolume(audioList[i], 3)
+            setExtraVolume(audioList.commonAudio3, 3)
 
             timerList[0] = setTimeout(activeBtnFunc, 1500);
 
             setRepeatType(2)
 
-            audioList.bodyAudio1.src = prePathUrl() + "sounds/main/common/review0.mp3"
-            audioList.bodyAudio2.src = prePathUrl() + "sounds/main/common/review1.mp3"
 
             imageCount = 0;
             isEffectPassed = true;
@@ -101,7 +98,6 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo }, ref) => {
 
             setRepeatAudio(audioList.commonAudio3)
 
-            // testFunction(1,0)
         },
         sceneEnd: () => {
         }
@@ -111,21 +107,12 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo }, ref) => {
         if (!isRendered) {
             isRendered = true;
             timerList[6] = setTimeout(() => {
-                audioList.bodyAudio1.play();
-
-                // timerList[7] = setTimeout(() => {
-                //     audioList.bodyAudio2.play();
-
+                audioList.reviewAudio.play();
                 timerList[8] = setTimeout(() => {
                     audioList.commonAudio3.play()
                     startRepeatAudio()
-
-                    // }, audioList.bodyAudio2.duration * 1000 + 300);
-                }, audioList.bodyAudio1.duration * 1000 + 1000);
-
+                }, audioList.reviewAudio.duration * 1000 + 1000);
             }, 1500);
-
-            // baseObject.current.className = 'aniObject'
         }
     }
 

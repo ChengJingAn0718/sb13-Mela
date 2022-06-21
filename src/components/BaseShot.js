@@ -25,15 +25,20 @@ let tingAudio = new loadSound('ting', true);
 let wooAudio = new loadSound('woo', true);
 let replayAudio = new loadSound('replayAudio', true);
 let successAudio = new loadSound('success', true);
+let excellentAudio = new loadSound('excellent', true);
 
 
 let bodyAudio1 = new loadSound('intro/2');
 let bodyAudio2 = new loadSound('intro/2');
 let bodyAudio3 = new loadSound('intro/2');
+let bodyAudio4 = new loadSound('intro/2');
 
 let commonAudio1 = new loadSound('common/common1');
 let commonAudio2 = new loadSound('common/common2');
 let commonAudio3 = new loadSound('common/common3');
+
+let middleAudio = new loadSound('common/middle');
+let reviewAudio = new loadSound('common/review0');
 
 let subAudioList = []
 
@@ -65,14 +70,19 @@ let audioList = {
     tingAudio,
     wooAudio,
     buzzAudio,
+    excellentAudio,
 
     bodyAudio1,
     bodyAudio2,
     bodyAudio3,
+    bodyAudio4,
 
     commonAudio1,
     commonAudio2,
     commonAudio3,
+
+    reviewAudio,
+    middleAudio,
 
     successAudio,
     ...subAudioList

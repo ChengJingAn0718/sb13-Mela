@@ -14,6 +14,10 @@ let totalStep = 0
 
 const questionPartCount = 4
 let isDisabled = false;
+
+let isEven = true;
+let cIndex = 0
+
 const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => {
 
     const audioList = useContext(UserContext)
@@ -27,13 +31,21 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
     const starRefs = Array.from({ length: 4 }, ref => useRef())
     const optionRef = useRef()
 
-    const aniImageList = Array.from({ length: 4 }, ref => useRef())
+    const aniImageLists = [
+        Array.from({ length: 4 }, ref => useRef()),
+        Array.from({ length: 4 }, ref => useRef())
+    ]
 
     const isExistOptionPart = true;
     const [iszoomQuestionShow, setzoomQuestionShow] = useState(false)
 
     const [isSceneLoad, setSceneLoad] = useState(false)
+    const [isLastLoaded, setLastLoaded] = useState(false)
+
     const parentRef = useRef()
+
+    const bodyAudio1s = [audioList.bodyAudio1, audioList.bodyAudio3]
+    const bodyAudio2s = [audioList.bodyAudio2, audioList.bodyAudio4]
 
     useEffect(() => {
 
@@ -52,8 +64,8 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         },
         sceneStart: () => {
 
-            setExtraVolume(audioList.commonAudio2, 1.5)
-            setExtraVolume(audioList.commonAudio1, 1.5)
+            setExtraVolume(audioList.commonAudio2, 2)
+            setExtraVolume(audioList.commonAudio1, 2)
 
             parentRef.current.className = 'aniObject'
             optionRef.current.startGame()
@@ -64,6 +76,9 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
             setSceneLoad(false)
             stepCount = 0;
             totalStep = 0
+            cIndex = 0;
+            isEven = 0;
+
             stopRepeatAudio()
         }
     }))
@@ -73,11 +88,11 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         blackWhiteObject.current.className = 'hideMask'
         baseColorImgRef.current.setClass('hideObject')
 
-        aniImageList[0].current.setClass('showObject')
+        aniImageLists[cIndex][0].current.setClass('showObject')
         let imageShowInterval = setInterval(() => {
-            aniImageList[imageNum].current.setClass('hideObject')
+            aniImageLists[cIndex][imageNum].current.setClass('hideObject')
             imageNum++
-            aniImageList[imageNum].current.setClass('showobject')
+            aniImageLists[cIndex][imageNum].current.setClass('showobject')
             if (imageNum == 3) {
                 clearInterval(imageShowInterval)
                 showControlFunc()
@@ -89,15 +104,19 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
 
         blackWhiteObject.current.style.WebkitMaskImage = 'url("' + prePathUrl() + 'images/question/' + (stepCount + 2) + '/m.png")'
 
-
-        aniImageList.map((image, index) => {
-            if (index < 3)
-                image.current.setUrl('question/' + (stepCount + 2) + '/' + (index + 1) + '.png')
-        })
+        if (stepCount < 1)
+            aniImageLists[cIndex].map((image, index) => {
+                if (index < 3)
+                    image.current.setUrl('question/' + (stepCount + 3) + '/' + (index + 1) + '.png')
+            })
 
         timerList[2] = setTimeout(() => {
-            audioList.commonAudio2.play();
+            if (stepCount == 0)
+                audioList.commonAudio2.play();
+
+            setPrimaryAudio(bodyAudio1s[cIndex])
             startRepeatAudio()
+
         }, 500);
 
         buttonRefs.current.className = 'show'
@@ -107,17 +126,21 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         baseColorImgRef.current.setClass('show')
 
         buttonRefs.current.className = 'hideObject'
-        aniImageList[3].current.setClass('hideObject')
+        aniImageLists[cIndex][3].current.setClass('hideObject')
         blackWhiteObject.current.className = 'show halfOpacity'
 
-        aniImageList[3].current.setUrl('question/' + (stepCount + 1) + '/4.png')
+        if (stepCount < 2)
+            aniImageLists[cIndex][3].current.setUrl('question/' + (stepCount + 2) + '/4.png')
 
         if (!isDisabled)
             timerList[3] = setTimeout(() => {
-                audioList.bodyAudio1.play().catch(error => { });
+                isEven = !isEven
+                cIndex = isEven ? 0 : 1
+
+                bodyAudio1s[cIndex].play().catch(error => { });
                 setTimeout(() => {
                     playZoomAnimation();
-                }, audioList.bodyAudio1.duration * 1000 + 2000);
+                }, bodyAudio1s[cIndex].duration * 1000 + 2000);
             }, 3000);
     }
 
@@ -133,10 +156,10 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         audioList.commonAudio2.pause();
 
         stepCount++
-        if (totalStep < questionPartCount)
-            audioList.bodyAudio1.src = getAudioPath('question/' + (stepCount + 1) + "/1")  //question
+        if (totalStep < questionPartCount - 1)
+            bodyAudio1s[cIndex].src = getAudioPath('question/' + (stepCount + 2) + "/1")  //question
 
-        audioList.bodyAudio2.play().catch(error => { });
+        bodyAudio2s[cIndex].play().catch(error => { });
         buttonRefs.current.style.pointerEvents = 'none'
 
         setTimeout(() => {
@@ -145,24 +168,13 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
             starRefs[totalStep].current.setClass('show')
             totalStep++
 
-            if (totalStep < questionPartCount)
-                audioList.bodyAudio2.src = getAudioPath('question/' + (stepCount + 1) + "/2") //answer
+            if (totalStep < questionPartCount - 1)
+                bodyAudio2s[cIndex].src = getAudioPath('question/' + (stepCount + 2) + "/2") //answer
 
             setTimeout(() => {
                 audioList.successAudio.pause();
                 audioList.successAudio.currentTime = 0;
 
-                // if (stepCount == questionPartCount - 1) {
-                //     continueOptionPart()
-                //     isDisabled = true;
-                //     setTimeout(() => {
-                //         returnBackground();
-                //         // buttonRefs.current.style.pointerEvents = ''
-                //     }, 2000);
-                // }
-
-                // else {
-                //     isDisabled = false;
                 if (totalStep < questionPartCount) {
                     returnBackground();
                     buttonRefs.current.style.pointerEvents = ''
@@ -172,17 +184,12 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
                         nextFunc()
                     }, 2000);
                 }
-                // }
             }, 4000);
 
-        }, audioList.bodyAudio2.duration * 1000);
+        }, bodyAudio2s[cIndex].duration * 1000);
     }
 
-    //2022-3-27 modified by Cheng...
-
     const transSignaler = (signal) => {
-
-
         switch (signal) {
             case SIGNALLIST.startZoomQuestionPart:
 
@@ -215,7 +222,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
 
         stepCount = 0
 
-        setPrimaryAudio(audioList.bodyAudio1)
+        setPrimaryAudio(bodyAudio1s[cIndex])
         setRepeatAudio(audioList.commonAudio2)
 
         zoomQuestionPartRef.current.className = 'aniObject'
@@ -225,16 +232,24 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
 
         setTimeout(() => {
 
-            audioList.bodyAudio1.play().catch(error => { });
+            bodyAudio1s[cIndex].play().catch(error => { });
 
             setTimeout(() => {
+                bodyAudio1s[cIndex + 1].src = getAudioPath('question/2/1')  //question
+                bodyAudio2s[cIndex + 1].src = getAudioPath('question/2/2')  //answer
+
+                setLastLoaded(true)
                 playZoomAnimation();
-            }, audioList.bodyAudio1.duration * 1000 + 2000);
+
+
+            }, bodyAudio1s[cIndex].duration * 1000 + 2000);
         }, 3000);
 
 
-        audioList.bodyAudio1.src = getAudioPath('question/1/1')  //question
-        audioList.bodyAudio2.src = getAudioPath('question/1/2')  //answer
+        bodyAudio1s[cIndex].src = getAudioPath('question/1/1')  //question
+        bodyAudio2s[cIndex].src = getAudioPath('question/1/2')  //answer
+
+
     }
 
     const continueOptionPart = () => {
@@ -361,30 +376,39 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
                             </div>
 
                             {
-                                [1, 2, 3].map(value =>
-                                    <BaseImage
-                                        ref={aniImageList[value - 1]}
-                                        scale={1}
-                                        posInfo={{ l: 0, t: 0 }}
-                                        className='hideObject'
-                                        url={"question/1/" + value + ".png"}
-                                    />
+                                aniImageLists.map(
+                                    (aniImageList, index) =>
+                                        (index == 0 || index == 1 && isLastLoaded) &&
+                                        [1, 2, 3].map(value =>
+                                            <BaseImage
+                                                className='hideObject'
+                                                ref={aniImageList[value - 1]}
+                                                scale={1}
+                                                posInfo={{ l: 0, t: 0 }}
+                                                url={"question/" + (index + 1) + "/" + value + ".png"}
+                                            />
+                                        )
                                 )
                             }
 
-                            <div
-                                style={{
-                                    position: "fixed", width: _geo.width * 1.3 + "px",
-                                    height: _geo.height + "px",
-                                    left: _geo.left - _geo.width * 0.15 + 'px'
-                                    , top: _geo.top - _geo.height * 0.19 + 'px'
-                                }}>
-                                <BaseImage
-                                    ref={aniImageList[3]}
-                                    className='hideObject'
-                                    url={"question/1/4.png"}
-                                />
-                            </div>
+                            {
+                                aniImageLists.map((aniImageList, index) =>
+                                    (index == 0 || index == 1 && isLastLoaded) &&
+                                    <div
+                                        style={{
+                                            position: "fixed", width: _geo.width * 1.3 + "px",
+                                            height: _geo.height + "px",
+                                            left: _geo.left - _geo.width * 0.15 + 'px'
+                                            , top: _geo.top - _geo.height * 0.19 + 'px'
+                                        }}>
+                                        <BaseImage
+                                            ref={aniImageList[3]}
+                                            className='hideObject'
+                                            url={"question/" + (index + 1) + "/4.png"}
+                                        />
+                                    </div>
+                                )
+                            }
 
 
                             <div ref={buttonRefs} className='hideObject'>
@@ -410,7 +434,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
                                             top: '-32%'
                                         }}
                                         draggable={false}
-                                        src={prePathUrl() + 'images/Buttons/Answer_Button.svg'}
+                                        src={prePathUrl() + 'images/buttons/answer_button.svg'}
                                     />
                                 </div>
                             </div>
@@ -424,15 +448,11 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
                             <OptionScene
                                 ref={optionRef}
                                 transSignaler={transSignaler}
-                                nextFunc={continueZoomQuestionPart}
+                                nextFunc={startZoomQuestionPart}
                                 _baseGeo={_baseGeo}
                                 _geo={_geo} />
-
                         </div>
                     }
-
-
-
                 </div>
             }
         </div>

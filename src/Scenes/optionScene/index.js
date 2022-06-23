@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useContext, useState } from 'react';
 import "../../stylesheets/styles.css";
 import BaseImage from '../../components/BaseImage';
 import { UserContext } from '../../components/BaseShot';
-import { getAudioPath, prePathUrl, setPrimaryAudio, setRepeatAudio, setRepeatType, startRepeatAudio, stopRepeatAudio } from "../../components/CommonFunctions";
+import { getAudioPath, prePathUrl, setExtraVolume, setPrimaryAudio, setRepeatAudio, setRepeatType, startRepeatAudio, stopRepeatAudio } from "../../components/CommonFunctions";
 
 import { SIGNALLIST } from "../../components/CommonVarariant"
 
@@ -94,6 +94,8 @@ const OptionScene = React.forwardRef(({ nextFunc, transSignaler, _geo }, ref) =>
             setRepeatAudio(audioList.commonAudio1)
             setRepeatType(1)
 
+            setExtraVolume(audioList.bodyAudio1, 7)
+
             disableState = false;
 
             timerList[0] = setTimeout(() => {
@@ -108,7 +110,6 @@ const OptionScene = React.forwardRef(({ nextFunc, transSignaler, _geo }, ref) =>
             }, 1500);
         }
     }))
-
 
 
     const clickFunc = (num) => {
@@ -219,6 +220,7 @@ const OptionScene = React.forwardRef(({ nextFunc, transSignaler, _geo }, ref) =>
 
             else {
                 setTimeout(() => {
+                    setExtraVolume(audioList.bodyAudio1, 4)
                     nextFunc()
                 }, 3000);
             }

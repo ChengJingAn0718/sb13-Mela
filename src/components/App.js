@@ -40,7 +40,7 @@ const App = React.forwardRef(({ geo, _startTransition, baseGeo, bgLoaded }, ref)
 
       return () => {
       }
-      
+
     }, []
   )
 

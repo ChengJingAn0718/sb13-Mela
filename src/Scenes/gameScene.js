@@ -76,8 +76,10 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
             setSceneLoad(false)
             stepCount = 0;
             totalStep = 0
-            cIndex = 0;
-            isEven = 0;
+
+            isEven = true;
+            cIndex = 0
+    
 
             stopRepeatAudio()
         }
@@ -245,8 +247,8 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
 
             bodyAudio1s[cIndex].play().catch(error => { });
 
-            bodyAudio1s[1].src = getAudioPath('question/2/1')  //question
-            bodyAudio2s[1].src = getAudioPath('question/2/2')  //answer
+            // bodyAudio1s[1].src = getAudioPath('question/2/1')  //question
+            // bodyAudio2s[1].src = getAudioPath('question/2/2')  //answer
 
             setTimeout(() => {
 
@@ -274,6 +276,10 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
     }
 
     const continueZoomQuestionPart = () => {
+
+        isEven = true;
+        cIndex = 0
+
         optionPartRef.current.className = 'disapear'
 
         setPrimaryAudio(bodyAudio1s[cIndex])

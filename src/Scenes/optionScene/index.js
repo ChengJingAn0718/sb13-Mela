@@ -212,7 +212,7 @@ const OptionScene = React.forwardRef(({ nextFunc, transSignaler, _geo }, ref) =>
                                     audioList.commonAudio1.play();
                                 }, audioList.bodyAudio2.duration * 1000 + 300);
                             }, audioList.bodyAudio1.duration * 1000 + 300);
-                        }, 1500);
+                        }, 2000);
                     }
                 }, waitTime);
             }

@@ -37,7 +37,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
     ]
 
     const isExistOptionPart = true;
-    const [iszoomQuestionShow, setzoomQuestionShow] = useState(false)
+    const [iszoomQuestionShow, setzoomQuestionShow] = useState(true)
 
     const [isSceneLoad, setSceneLoad] = useState(false)
     const [isLastLoaded, setLastLoaded] = useState(false)
@@ -68,7 +68,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
             setExtraVolume(audioList.commonAudio1, 3)
 
             parentRef.current.className = 'aniObject'
-            optionRef.current.startGame()
+            startZoomQuestionPart()
             loadFunc()
             setRepeatType(1)
         },
@@ -137,10 +137,12 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         timerList[3] = setTimeout(() => {
             cIndex = isEven ? 0 : 1
 
-            bodyAudio1s[cIndex].play().catch(error => { });
-            setTimeout(() => {
-                playZoomAnimation();
-            }, bodyAudio1s[cIndex].duration * 1000 + 2000);
+            if (!isDisabled) {
+                bodyAudio1s[cIndex].play().catch(error => { });
+                setTimeout(() => {
+                    playZoomAnimation();
+                }, bodyAudio1s[cIndex].duration * 1000 + 2000);
+            }
         }, 3000);
     }
 
@@ -175,7 +177,13 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
                 audioList.successAudio.pause();
                 audioList.successAudio.currentTime = 0;
 
-                if (totalStep < questionPartCount) {
+                if (totalStep == 1) {
+                    isDisabled = true;
+                    returnBackground();
+                    continueOptionPart()
+                }
+                else if (totalStep < questionPartCount) {
+                    isDisabled = false;
                     returnBackground();
                     buttonRefs.current.style.pointerEvents = ''
                 }
@@ -262,28 +270,38 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         zoomQuestionPartRef.current.className = 'disapear'
         optionPartRef.current.className = 'appear'
 
-
         optionRef.current.continueGame()
     }
 
     const continueZoomQuestionPart = () => {
-        stopRepeatAudio()
-        zoomQuestionPartRef.current.className = 'appear'
         optionPartRef.current.className = 'disapear'
-        buttonRefs.current.style.pointerEvents = ''
 
-        setPrimaryAudio(audioList.bodyAudio1)
+        setPrimaryAudio(bodyAudio1s[cIndex])
         setRepeatAudio(audioList.commonAudio2)
 
-        audioList.bodyAudio1.src = getAudioPath('question/' + (stepCount + 1) + "/1")  //question
-        audioList.bodyAudio2.src = getAudioPath('question/' + (stepCount + 1) + "/2") //answer
+        zoomQuestionPartRef.current.className = 'aniObject'
 
-        timerList[3] = setTimeout(() => {
-            audioList.bodyAudio1.play().catch(error => { });
+        blackWhiteObject.current.className = 'hideObject'
+        buttonRefs.current.className = 'hideObject'
+
+        bodyAudio1s[0].src = getAudioPath('question/2/1')  //question
+        bodyAudio2s[0].src = getAudioPath('question/2/2')  //answer
+
+        setTimeout(() => {
+
+            bodyAudio1s[cIndex].play().catch(error => { });
+
+            bodyAudio1s[1].src = getAudioPath('question/3/1')  //question
+            bodyAudio2s[1].src = getAudioPath('question/3/2')  //answer
+
             setTimeout(() => {
+
+                setLastLoaded(true)
                 playZoomAnimation();
-            }, audioList.bodyAudio1.duration * 1000 + 2000);
-        }, 2500);
+                buttonRefs.current.style.pointerEvents = ''
+
+            }, bodyAudio1s[cIndex].duration * 1000 + 2000);
+        }, 3000);
 
     }
 
@@ -452,7 +470,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
                             <OptionScene
                                 ref={optionRef}
                                 transSignaler={transSignaler}
-                                nextFunc={startZoomQuestionPart}
+                                nextFunc={continueZoomQuestionPart}
                                 _baseGeo={_baseGeo}
                                 _geo={_geo} />
                         </div>

@@ -64,8 +64,8 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         },
         sceneStart: () => {
 
-            setExtraVolume(audioList.commonAudio2, 2)
-            setExtraVolume(audioList.commonAudio1, 2)
+            setExtraVolume(audioList.commonAudio2, 3)
+            setExtraVolume(audioList.commonAudio1, 3)
 
             parentRef.current.className = 'aniObject'
             optionRef.current.startGame()
@@ -132,16 +132,16 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         if (stepCount < 2)
             aniImageLists[cIndex][3].current.setUrl('question/' + (stepCount + 2) + '/4.png')
 
-        if (!isDisabled)
-            timerList[3] = setTimeout(() => {
-                isEven = !isEven
-                cIndex = isEven ? 0 : 1
+        isEven = !isEven
 
-                bodyAudio1s[cIndex].play().catch(error => { });
-                setTimeout(() => {
-                    playZoomAnimation();
-                }, bodyAudio1s[cIndex].duration * 1000 + 2000);
-            }, 3000);
+        timerList[3] = setTimeout(() => {
+            cIndex = isEven ? 0 : 1
+
+            bodyAudio1s[cIndex].play().catch(error => { });
+            setTimeout(() => {
+                playZoomAnimation();
+            }, bodyAudio1s[cIndex].duration * 1000 + 2000);
+        }, 3000);
     }
 
 
@@ -156,7 +156,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         audioList.commonAudio2.pause();
 
         stepCount++
-        if (totalStep < questionPartCount - 1)
+        if (stepCount < 2)
             bodyAudio1s[cIndex].src = getAudioPath('question/' + (stepCount + 2) + "/1")  //question
 
         bodyAudio2s[cIndex].play().catch(error => { });
@@ -168,7 +168,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
             starRefs[totalStep].current.setClass('show')
             totalStep++
 
-            if (totalStep < questionPartCount - 1)
+            if (stepCount < 2)
                 bodyAudio2s[cIndex].src = getAudioPath('question/' + (stepCount + 2) + "/2") //answer
 
             setTimeout(() => {
@@ -230,13 +230,18 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         blackWhiteObject.current.className = 'hideObject'
         buttonRefs.current.className = 'hideObject'
 
+        bodyAudio1s[0].src = getAudioPath('question/1/1')  //question
+        bodyAudio2s[0].src = getAudioPath('question/1/2')  //answer
+
         setTimeout(() => {
 
             bodyAudio1s[cIndex].play().catch(error => { });
 
+            bodyAudio1s[1].src = getAudioPath('question/2/1')  //question
+            bodyAudio2s[1].src = getAudioPath('question/2/2')  //answer
+
             setTimeout(() => {
-                bodyAudio1s[cIndex + 1].src = getAudioPath('question/2/1')  //question
-                bodyAudio2s[cIndex + 1].src = getAudioPath('question/2/2')  //answer
+
 
                 setLastLoaded(true)
                 playZoomAnimation();
@@ -246,8 +251,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         }, 3000);
 
 
-        bodyAudio1s[cIndex].src = getAudioPath('question/1/1')  //question
-        bodyAudio2s[cIndex].src = getAudioPath('question/1/2')  //answer
+
 
 
     }

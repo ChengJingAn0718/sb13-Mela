@@ -17,7 +17,7 @@ export default function Scene18({ nextFunc, _geo, _baseGeo }) {
         setRepeatType(2)
 
         setExtraVolume(audioList.replayAudio, 3)
-        setExtraVolume(audioList.excellentAudio, 5)
+        setExtraVolume(audioList.excellentAudio, 6)
 
 
         timerList[0] = setTimeout(() => {

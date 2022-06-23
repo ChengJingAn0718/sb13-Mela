@@ -111,16 +111,16 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc, bgLoaded }, ref)
 
             setTimeout(() => {
                 setSubMaskLoaded(2)
-                setExtraVolume(audioList.bodyAudio2, 3)
+                setExtraVolume(audioList.bodyAudio2, 4)
             }, 2000);
 
             setTimeout(() => {
                 audioList.bodyAudio2.play()
                 setTimeout(() => {
 
-                    setExtraVolume(audioList.bodyAudio1, 3)
-                    setExtraVolume(audioList.bodyAudio4, 3)
-                    setExtraVolume(audioList.bodyAudio3, 3)
+                    setExtraVolume(audioList.bodyAudio1, 4)
+                    setExtraVolume(audioList.bodyAudio4, 4)
+                    setExtraVolume(audioList.bodyAudio3, 4)
 
                     showIndividualImage()
 
@@ -257,7 +257,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc, bgLoaded }, ref)
                                     subMaskNum++
                                 }
                                 else {
-                                    isEven = !isEven
+                                    
                                     let subCount = 0
                                     for (let i = currentMaskNum + 1; i < maskPathList.length; i++) {
 
@@ -273,6 +273,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc, bgLoaded }, ref)
 
                                 }
 
+                                isEven = !isEven
                                 currentMaskNum++;
 
                                 blackWhiteObjects[cIndex].current.className = 'hide'

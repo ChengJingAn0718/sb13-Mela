@@ -56,7 +56,7 @@ const FullScreenBtn = React.forwardRef((prop, ref) => {
             }}>
             <img draggable={false} onClick={() => { setTimeout(screenControlFunc, 200) }}
                 width={"100%"}
-                src={prePathUrl() + "images/Buttons/" + (!isFullScreen ? "fullscreen-svgrepo-com" : "exit-full-screen-svgrepo-com") + ".svg"}
+                src={prePathUrl() + "images/buttons/" + (!isFullScreen ? "fullscreen-svgrepo-com" : "exit-full-screen-svgrepo-com") + ".svg"}
             />
         </div>
     )
@@ -69,7 +69,7 @@ const MusicButton = React.forwardRef((prop, ref) => {
     function controlBacksound() {
         if (_isBackSoundPlaying) {
             _setBackgroundPlaying(false);
-            setExtraVolume(prop.backAudio, 2)
+            setExtraVolume(prop.backAudio, 1.3)
             prop.backAudio.pause();
         }
         else {
@@ -114,7 +114,7 @@ const MusicButton = React.forwardRef((prop, ref) => {
                 draggable={false}
 
                 width={"100%"}
-                src={prePathUrl() + "images/Buttons/" + (_isBackSoundPlaying ? "Audio_unmute" : "Audio_mute") + ".svg"}
+                src={prePathUrl() + "images/buttons/" + (_isBackSoundPlaying ? "audio_unmute" : "audio_mute") + ".svg"}
             />
         </div>
     )
@@ -137,7 +137,7 @@ const LoadingCircleBar = React.forwardRef((prop, ref) => {
         >
             <img
                 style={{ position: 'absolute', width: '10%', top: '40%', left: '45%' }}
-                src={prePathUrl() + "images/Buttons/loadingBar.gif"}
+                src={prePathUrl() + "images/buttons/loadingbar.gif"}
             />
         </div>
     )

@@ -346,11 +346,11 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
                                         , cursor: "pointer",
                                     }}>
                                     <BaseImage
-                                        url={'Icon/grey_progress.png'}
+                                        url={'icon/grey_progress.png'}
                                     />
                                     <BaseImage
                                         ref={starRefs[starRefs.length - 1 - value]}
-                                        url={'Icon/progress.png'}
+                                        url={'icon/progress.png'}
                                         className='hideObject'
                                     />
                                 </div>)

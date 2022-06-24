@@ -18,12 +18,12 @@ const animationColorList = [
 let titleAudio = new loadSound('intro/2');
 
 let clapAudio = new loadSound('clap', true);
-let backAudio = new loadSound('bMusic', true);
+let backAudio = new loadSound('bmusic', true);
 let yeahAudio = new loadSound('yeah', true);
 let buzzAudio = new loadSound('buzz', true);
 let tingAudio = new loadSound('ting', true);
 let wooAudio = new loadSound('woo', true);
-let replayAudio = new loadSound('replayAudio', true);
+let replayAudio = new loadSound('replayaudio', true);
 let successAudio = new loadSound('success', true);
 let excellentAudio = new loadSound('excellent', true);
 

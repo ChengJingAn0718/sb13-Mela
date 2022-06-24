@@ -52,9 +52,8 @@ const OptionScene = React.forwardRef(({ nextFunc, transSignaler, _geo }, ref) =>
     const [isShowLastPart, setShowLastPart] = useState(false)
 
     useEffect(() => {
+        
         setPositionFomart()
-
-
 
         return () => {
             answerList = []
@@ -94,8 +93,7 @@ const OptionScene = React.forwardRef(({ nextFunc, transSignaler, _geo }, ref) =>
             setRepeatAudio(audioList.commonAudio1)
             setRepeatType(1)
 
-            setExtraVolume(audioList.bodyAudio1, 7)
-
+            setExtraVolume(audioList.bodyAudio1, 11)
             disableState = false;
 
             timerList[0] = setTimeout(() => {
@@ -220,7 +218,7 @@ const OptionScene = React.forwardRef(({ nextFunc, transSignaler, _geo }, ref) =>
 
             else {
                 setTimeout(() => {
-                    setExtraVolume(audioList.bodyAudio1, 4)
+                    setExtraVolume(audioList.bodyAudio1, 6)
                     nextFunc()
                 }, 3000);
             }

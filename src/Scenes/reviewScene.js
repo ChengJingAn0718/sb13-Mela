@@ -83,8 +83,8 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo }, ref) => {
 
 
             for (let i = 0; i < 11; i++)
-                setExtraVolume(audioList[i], 4)
-            setExtraVolume(audioList.commonAudio3, 4)
+                setExtraVolume(audioList[i], 6)
+            setExtraVolume(audioList.commonAudio3, 6)
 
             timerList[0] = setTimeout(activeBtnFunc, 1500);
 
@@ -95,7 +95,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo }, ref) => {
             isEffectPassed = true;
 
             clickedList = []
-            setExtraVolume(audioList.reviewAudio, 4)
+            setExtraVolume(audioList.reviewAudio, 6)
             setRepeatAudio(audioList.commonAudio3)
 
         },

@@ -64,6 +64,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
         },
         sceneStart: () => {
 
+
             setExtraVolume(audioList.commonAudio2, 3)
             setExtraVolume(audioList.commonAudio1, 3)
 
@@ -79,7 +80,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
 
             isEven = true;
             cIndex = 0
-    
+
 
             stopRepeatAudio()
         }
@@ -104,7 +105,8 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
 
     const showControlFunc = () => {
 
-        blackWhiteObject.current.style.WebkitMaskImage = 'url("' + prePathUrl() + 'images/question/' + (stepCount + 2) + '/m.png")'
+        if (stepCount < 2)
+            blackWhiteObject.current.style.WebkitMaskImage = 'url("' + prePathUrl() + 'images/question/' + (stepCount + 2) + '/m.png")'
 
         if (stepCount < 1)
             aniImageLists[cIndex].map((image, index) => {
@@ -247,22 +249,13 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
 
             bodyAudio1s[cIndex].play().catch(error => { });
 
-            // bodyAudio1s[1].src = getAudioPath('question/2/1')  //question
-            // bodyAudio2s[1].src = getAudioPath('question/2/2')  //answer
-
             setTimeout(() => {
-
 
                 setLastLoaded(true)
                 playZoomAnimation();
 
-
             }, bodyAudio1s[cIndex].duration * 1000 + 2000);
         }, 3000);
-
-
-
-
 
     }
 
@@ -277,28 +270,25 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
 
     const continueZoomQuestionPart = () => {
 
-        isEven = true;
-        cIndex = 0
-
         optionPartRef.current.className = 'disapear'
 
-        setPrimaryAudio(bodyAudio1s[cIndex])
+        setPrimaryAudio(bodyAudio1s[1])
         setRepeatAudio(audioList.commonAudio2)
 
         zoomQuestionPartRef.current.className = 'aniObject'
 
-        blackWhiteObject.current.className = 'hideObject'
+        blackWhiteObject.current.className = 'show halfOpacity'
         buttonRefs.current.className = 'hideObject'
 
-        bodyAudio1s[0].src = getAudioPath('question/2/1')  //question
-        bodyAudio2s[0].src = getAudioPath('question/2/2')  //answer
+        bodyAudio1s[1].src = getAudioPath('question/2/1')  //question
+        bodyAudio2s[1].src = getAudioPath('question/2/2')  //answer
 
         setTimeout(() => {
 
-            bodyAudio1s[cIndex].play().catch(error => { });
+            bodyAudio1s[1].play().catch(error => { });
 
-            bodyAudio1s[1].src = getAudioPath('question/3/1')  //question
-            bodyAudio2s[1].src = getAudioPath('question/3/2')  //answer
+            bodyAudio1s[0].src = getAudioPath('question/3/1')  //question
+            bodyAudio2s[0].src = getAudioPath('question/3/2')  //answer
 
             setTimeout(() => {
 
@@ -306,7 +296,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
                 playZoomAnimation();
                 buttonRefs.current.style.pointerEvents = ''
 
-            }, bodyAudio1s[cIndex].duration * 1000 + 2000);
+            }, bodyAudio1s[1].duration * 1000 + 2000);
         }, 3000);
 
     }
@@ -472,6 +462,7 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo, loadFunc }, ref) => 
                         isExistOptionPart &&
                         <div
                             ref={optionPartRef}
+                            className='hideObject'
                         >
                             <OptionScene
                                 ref={optionRef}

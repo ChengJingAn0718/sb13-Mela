@@ -17,8 +17,8 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc }, ref) => {
     useEffect(() => {
     }, [])
 
-
     React.useImperativeHandle(ref, () => ({
+
         sceneLoad: () => {
             setSceneLoad(true)
         },
@@ -27,19 +27,20 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc }, ref) => {
             parentRef.current.className = 'aniObject'
             spakleRef.current.className = 'excellentText'
 
-            setExtraVolume(audioList.middleAudio, 5)
+            setExtraVolume(audioList.middleAudio, 7.5)
             loadFunc();
 
             timerList[0] = setTimeout(() => {
 
+                setExtraVolume(audioList.clapAudio, 2)
+                setExtraVolume(audioList.yeahAudio, 2)
+                setExtraVolume(audioList.tingAudio, 2)
+                setExtraVolume(audioList.buzzAudio, 2)
+                setExtraVolume(audioList.successAudio, 2)
 
-                setExtraVolume(audioList.clapAudio, 1.5)
-                setExtraVolume(audioList.yeahAudio, 1.5)
-                setExtraVolume(audioList.tingAudio, 1.5)
-                setExtraVolume(audioList.buzzAudio, 1.5)
-                setExtraVolume(audioList.successAudio, 1.5)
 
                 audioList.middleAudio.play().catch(error => { });
+
                 timerList[1] = setTimeout(() => {
                     nextFunc();
                 }, audioList.middleAudio.duration * 1000 + 3000);
@@ -47,22 +48,20 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc }, ref) => {
         },
 
         sceneEnd: () => {
-
             for (let i = 0; i < timerList.length; i++)
                 clearTimeout(timerList[i])
 
             setSceneLoad(false)
-
             audioList.middleAudio.src = getAudioPath('common/welldone')
         }
     }))
 
-
     return (
         <div>
-            {isSceneLoad
-                &&
-                <div ref={parentRef} className="hideObject">
+            {isSceneLoad &&
+                <div
+                    ref={parentRef}
+                    className="hideObject">
                     < div ref={spakleRef} className="hideObject" style={{
                         position: "fixed",
                         width: _baseGeo.width * 1 + "px",
@@ -87,7 +86,6 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, loadFunc }, ref) => {
                             src={prePathUrl() + "images/bg/middle.png"}
                         />
                     </div>
-
                 </div>
             }
         </div>

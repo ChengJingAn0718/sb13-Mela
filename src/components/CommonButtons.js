@@ -84,7 +84,6 @@ const MusicButton = React.forwardRef((prop, ref) => {
                 currentRef.current.className = 'introText'
                 prop.backAudio.currentTime = 0;
                 prop.backAudio.play().catch(error => { });
-                setExtraVolume(prop.backAudio, 1.5)
                 _setBackgroundPlaying(true);
 
             }, 500);

@@ -21,11 +21,11 @@ let clickedList = []
 let wordGround = [6, 5]
 
 const posInfoList = [
-    { x: 2, y: 40 },
-    { x: 33, y: 40 },
+    { x: 4, y: 40 },
+    { x: 34, y: 40 },
     { x: 64, y: 40, m: true },
-    { x: 2, y: 70 },
-    { x: 33, y: 70 },
+    { x: 4, y: 70 },
+    { x: 34, y: 70 },
     { x: 64, y: 70, m: true },
 
     { x: 15, y: 40 },
@@ -333,9 +333,9 @@ const Scene = React.forwardRef(({ nextFunc, _baseGeo, _geo }, ref) => {
                                             <img
                                                 style={{
                                                     position: 'absolute',
-                                                    width: _geo.width * textInfoList[index].s,
-                                                    left: (0.082 - textInfoList[index].l) * _geo.width,
-                                                    top: _geo.height * (0.03 - textInfoList[index].t)
+                                                    width: _geo.width * textInfoList[index].s * 0.9,
+                                                    left: (0.087 - textInfoList[index].l) * _geo.width,
+                                                    top: _geo.height * (0.038 - textInfoList[index].t)
                                                 }}
                                                 src={prePathUrl() + "images/word/" + returnSetName(index) + "/" + textInfoList[index].path + ".png"}
 

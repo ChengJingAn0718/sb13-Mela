@@ -354,7 +354,7 @@ const OptionScene = React.forwardRef(({ nextFunc, transSignaler, _geo }, ref) =>
                                 b: 0.09
                             }}
                             ref={textRefList[index]}
-                            url={"Option/" + value.f + "/" + value.wN + "a.png"}
+                            url={"option/" + value.f + "/" + value.wN + "a.png"}
                         />
                     </div>
 
@@ -380,7 +380,7 @@ const OptionScene = React.forwardRef(({ nextFunc, transSignaler, _geo }, ref) =>
                         }}>
                         <BaseImage
                             posInfo={{ l: 0, t: 0 }}
-                            url={"Option/" + value.f + "/" + value.wN + ".png"}
+                            url={"option/" + value.f + "/" + value.wN + ".png"}
                         />
                     </div>
                 )
